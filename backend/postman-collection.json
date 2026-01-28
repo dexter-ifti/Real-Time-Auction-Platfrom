@@ -1,0 +1,246 @@
+{
+    "info": {
+        "name": "Live Auction Platform API",
+        "description": "Complete API collection for testing the Live Auction Platform REST endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8000",
+            "type": "string"
+        },
+        {
+            "key": "itemId",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/health",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "health"
+                    ]
+                },
+                "description": "Check if the server is running and healthy"
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Auction Items",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Save first item ID to collection variable",
+                            "const response = pm.response.json();",
+                            "if (response.success && response.data.length > 0) {",
+                            "    pm.collectionVariables.set('itemId', response.data[0].id);",
+                            "    console.log('Saved itemId:', response.data[0].id);",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/items",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items"
+                    ]
+                },
+                "description": "Retrieve all auction items with their current status"
+            },
+            "response": []
+        },
+        {
+            "name": "Get Specific Auction Item",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/items/{{itemId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items",
+                        "{{itemId}}"
+                    ]
+                },
+                "description": "Get details of a specific auction item by ID. Make sure to run 'Get All Auction Items' first to populate the itemId variable."
+            },
+            "response": []
+        },
+        {
+            "name": "Get Bid History",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/api/items/{{itemId}}/history",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items",
+                        "{{itemId}}",
+                        "history"
+                    ]
+                },
+                "description": "Get all bids placed on a specific auction item"
+            },
+            "response": []
+        },
+        {
+            "name": "Create New Auction Item",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"iPhone 15 Pro Max 256GB\",\n  \"description\": \"Brand new sealed iPhone 15 Pro Max in Natural Titanium color with 256GB storage\",\n  \"startingPrice\": 1000.00,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1678652197831-2d180705cd2c\",\n  \"category\": \"Electronics\",\n  \"auctionEndTime\": \"2026-01-29T04:00:00.000Z\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/items",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items"
+                    ]
+                },
+                "description": "Create a new auction item. Update the auctionEndTime to a future date/time."
+            },
+            "response": []
+        },
+        {
+            "name": "Create Auction - MacBook Pro",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"MacBook Pro 16\\\" M3 Max 2024\",\n  \"description\": \"Brand new sealed MacBook Pro with M3 Max chip, 64GB RAM, 2TB SSD\",\n  \"startingPrice\": 3500.00,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1517336714731-489689fd1ca8\",\n  \"category\": \"Electronics\",\n  \"auctionEndTime\": \"2026-01-29T05:00:00.000Z\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/items",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items"
+                    ]
+                },
+                "description": "Example: Create a MacBook Pro auction"
+            },
+            "response": []
+        },
+        {
+            "name": "Create Auction - Vintage Watch",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Rolex Submariner Vintage 1970s\",\n  \"description\": \"Rare vintage Rolex Submariner from the 1970s in excellent condition with original box and papers\",\n  \"startingPrice\": 8000.00,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1523170335258-f5ed11844a49\",\n  \"category\": \"Watches\",\n  \"auctionEndTime\": \"2026-01-29T06:00:00.000Z\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/items",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items"
+                    ]
+                },
+                "description": "Example: Create a vintage watch auction"
+            },
+            "response": []
+        },
+        {
+            "name": "Create Auction - Camera",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"title\": \"Sony A7R V Mirrorless Camera\",\n  \"description\": \"Professional full-frame camera with 61MP sensor, 8K video, and advanced AI autofocus\",\n  \"startingPrice\": 3200.00,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1516035069371-29a1b244cc32\",\n  \"category\": \"Cameras\",\n  \"auctionEndTime\": \"2026-01-29T07:00:00.000Z\"\n}"
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/api/items",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "api",
+                        "items"
+                    ]
+                },
+                "description": "Example: Create a camera auction"
+            },
+            "response": []
+        },
+        {
+            "name": "Root Endpoint",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        ""
+                    ]
+                },
+                "description": "Get API information and available endpoints"
+            },
+            "response": []
+        }
+    ]
+}
